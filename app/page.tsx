@@ -20,9 +20,8 @@ export default function App() {
 
   return (
     <div style={styles.titleContainer}>
-      <div style={styles.logoTitleContainer}>
-        <img src="/logo.svg" alt="Logo" style={styles.logo} />
-        <h1 style={styles.title}>Happy Hamster</h1>
+      <div style={styles.titleContainer}>
+        <img src="/logo.png" alt="Happy Hamster Logo" style={styles.logo} />
       </div>
       <div style={styles.container}>
         <div style={styles.descriptionContainer}>
@@ -79,34 +78,18 @@ export default function App() {
 const styles = {
   titleContainer: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column' as 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F9F3E9', // Warm beige background
-    color: '#4A3F35', // Warm dark brown text
-  },
-  logoTitleContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#D5D7E1',
   },
   logo: {
-    maxWidth: '100%', // ensures the image scales down
+    maxWidth: '300px', // You can adjust this value according to the actual size of the new image
     height: 'auto',
-    maxHeight: '50px', // or whatever maximum height you want
-  },
-  title: {
-    fontSize: '2rem',
-    margin: '0 1rem',
-    textAlign: 'center',
   },
   '@media (max-width: 600px)': {
-    title: {
-      fontSize: '1.5rem',
-    },
     logo: {
-      maxHeight: '40px', // reduce size on small screens
+      maxWidth: '200px', // reduce size on small screens
     },
   },
   container: {
@@ -114,9 +97,10 @@ const styles = {
     flexDirection: 'column' as 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F9F3E9', // Warm beige background
-    color: '#4A3F35', // Warm dark brown text
+    backgroundColor: '#D5D7E1',
     minHeight: '100vh',
+    color: '#000000',
+    fontFamily: 'BalsamiqSans'
   },
   description: {
     fontSize: '1.2rem',
@@ -134,7 +118,6 @@ const styles = {
   subTitle: {
     fontSize: '1.6rem',
     margin: '1rem 0',
-    color: '#5D5C61', // Dark gray for emphasis
   },
   descriptionContainer: {
     marginBottom: '2rem',
