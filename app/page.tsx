@@ -4,6 +4,8 @@ import { Player, studioProvider, createReactClient } from '@livepeer/react';
 import { LivepeerConfig } from '@livepeer/react';
 import { QueryClient } from '@tanstack/react-query';
 
+import './globals.css'
+
 
 export default function App() {
   const client = createReactClient({
@@ -21,7 +23,7 @@ export default function App() {
   return (
     <div style={styles.titleContainer}>
       <div style={styles.titleContainer}>
-        <img src="/logo.png" alt="Happy Hamster Logo" style={styles.logo} />
+        <img src="/logo.png" alt="Happy Hamster Logo" className='logo' />
       </div>
       <div style={styles.container}>
         <div style={styles.descriptionContainer}>
@@ -82,15 +84,6 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#D5D7E1',
-  },
-  logo: {
-    maxWidth: '300px', // You can adjust this value according to the actual size of the new image
-    height: 'auto',
-  },
-  '@media (max-width: 600px)': {
-    logo: {
-      maxWidth: '200px', // reduce size on small screens
-    },
   },
   container: {
     display: 'flex',
