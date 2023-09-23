@@ -21,7 +21,7 @@ export default function App() {
   return (
     <div style={styles.titleContainer}>
       <div style={styles.logoTitleContainer}>
-        <img src="/logo.svg" alt="Logo" />
+        <img src="/logo.svg" alt="Logo" style={styles.logo} />
         <h1 style={styles.title}>Happy Hamster</h1>
       </div>
       <div style={styles.container}>
@@ -77,28 +77,51 @@ export default function App() {
 }
 
 const styles = {
-  container: {
+  titleContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F9F3E9', // Warm beige background
     color: '#4A3F35', // Warm dark brown text
-    minHeight: '100vh',
   },
-  titleContainer: {
-    color: '#4A3F35', // Warm dark brown text
-    backgroundColor: '#F9F3E9', // Warm beige background
-    marginBottom: '2rem',
+  logoTitleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    maxWidth: '100%', // ensures the image scales down
+    height: 'auto',
+    maxHeight: '50px', // or whatever maximum height you want
   },
   title: {
-    fontSize: '8rem',
-    margin: '0',
+    fontSize: '2rem',
+    margin: '0 1rem',
+    textAlign: 'center',
+  },
+  '@media (max-width: 600px)': {
+    title: {
+      fontSize: '1.5rem',
+    },
+    logo: {
+      maxHeight: '40px', // reduce size on small screens
+    },
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column' as 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F9F3E9', // Warm beige background
+    color: '#4A3F35', // Warm dark brown text
+    minHeight: '100vh',
   },
   description: {
     fontSize: '1.2rem',
     lineHeight: '1.5',
-    textAlign: 'center',
+    textAlign: 'center' as 'center',
     maxWidth: '800px',
   },
   playerContainer: {
@@ -116,21 +139,12 @@ const styles = {
   descriptionContainer: {
     marginBottom: '2rem',
     maxWidth: '800px',
-    textAlign: 'left',
+    textAlign: 'left' as 'left',
   },
   bulletPoints: {
     listStyleType: 'disc',
     marginLeft: '2rem',
     fontSize: '1.2rem',
     lineHeight: '1.5',
-  },
-  logoTitleContainer: {
-    display: 'flex',
-    alignItems: 'center', // This will vertically align the items
-    justifyContent: 'center', // This will horizontally align the items
-  },
-  logo: {
-    height: '8rem', // Adjust based on your needs
-    marginRight: '1rem', // Optional: Adds some space between the logo and the title
   },
 };
