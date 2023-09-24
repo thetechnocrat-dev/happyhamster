@@ -1,11 +1,67 @@
 "use client"
 
+import React, { useState } from 'react';
 import { Player, studioProvider, createReactClient } from '@livepeer/react';
 import { LivepeerConfig } from '@livepeer/react';
 import { QueryClient } from '@tanstack/react-query';
-
+import axios from 'axios';
 import './globals.css'
 
+const UploadImageComponent: React.FC = () => {
+  const [fileData, setFileData] = useState<File | null>(null);
+  const [returnedImage, setReturnedImage] = useState<string | null>(null);
+
+  const loadImageBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setFileData(file);
+
+    try {
+      const image = await loadImageBase64(file);
+      axios({
+        method: "POST",
+        url: "https://detect.roboflow.com/toy-hamster/1",
+        params: {
+          api_key: "FUTpJGYv1o8VDN2dR9op",
+          format: "image"
+        },
+        data: image,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        responseType: 'arraybuffer',  // Important for receiving binary data
+      })
+      .then(function(response) {
+        const arrayBufferView = new Uint8Array(response.data);
+        const blob = new Blob([arrayBufferView], { type: 'image/jpeg' });
+        const objectURL = window.URL.createObjectURL(blob);
+        setReturnedImage(objectURL);
+      })
+      .catch(function(error) {
+        console.error('Error in API request:', error);
+      });
+    } catch (error) {
+      console.error('Error loading image:', error);
+    }
+  };
+
+  return (
+    <div style={styles.playerContainer}>
+      <input style={styles.input} type="file" onChange={handleFileChange} />
+      { returnedImage && <img src={returnedImage} alt="Returned Image" style={styles.image} /> }
+    </div>
+  );
+};
 
 export default function App() {
   const client = createReactClient({
@@ -27,10 +83,10 @@ export default function App() {
       </div>
       <div style={styles.container}>
         <div style={styles.descriptionContainer}>
-          <h2 style={styles.subTitle}>Our Mission</h2>
-          <p style={styles.description}>
-            We're on an exploration to make hamster health a public good. 
-          </p>
+        <h2 style={styles.subTitle}>Our Vision</h2>
+        <p style={styles.description}>
+          Happy Hamster envisions a world where every pet hamster contributes to public healthcare. Through understanding and harnessing their unique health attributes, we aim to revolutionize both pet care and biomedical research.
+        </p>
 
           <h2 style={styles.subTitle}>Why It Matters</h2>
           <ul style={styles.bulletPoints}>
@@ -68,6 +124,7 @@ export default function App() {
         </div>
 
         <br/>
+        <UploadImageComponent />
         <p style={styles.description}>
           LilyPad for reproducible and verifiable data science
         </p>
@@ -123,4 +180,13 @@ const styles = {
     fontSize: '1.2rem',
     lineHeight: '1.5',
   },
+  image: {
+    maxWidth: '100%',
+    borderRadius: '0.5rem',
+  },
+  input: {
+    display: 'block',
+    margin: '1rem 0',
+    padding: '0.5rem',
+  }
 };
