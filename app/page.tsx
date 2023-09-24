@@ -28,7 +28,7 @@ const UploadImageComponent: React.FC = () => {
   const handleIPFSLoad = async () => {
     if (!returnedImage) return;
 
-    const client = new Web3Storage({ token: process.env.STORAGE_ACCOUNT || '' });  // replace with your API token
+    const client = new Web3Storage({ token: STORAGE_ACCOUNT });  // replace with your API token
 
     // Convert Data URL to Blob
     const fetchRes = await fetch(returnedImage);
@@ -65,7 +65,7 @@ const UploadImageComponent: React.FC = () => {
         method: "POST",
         url: "https://detect.roboflow.com/toy-hamster/1",
         params: {
-          api_key: process.env.ROBOFLOW_API_KEY || "",
+          api_key: ROBO_ACCOUNT,
           format: "image"
         },
         data: image,
@@ -113,7 +113,7 @@ const UploadImageComponent: React.FC = () => {
 
 export default function App() {
   const client = createReactClient({
-    provider: studioProvider({ apiKey: process.env.STREAM_CODE || "" }),
+    provider: studioProvider({ apiKey: STREAM_CODE }),
     queryClient: new QueryClient({
       defaultOptions: {
         queries: {
@@ -180,6 +180,10 @@ export default function App() {
     </div>
   );
 }
+
+const ROBO_ACCOUNT="FUTpJGYv1o8VDN2dR9op"
+const STORAGE_ACCOUNT="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDAwMEFDODdBMTdEZWI3ZmZiQTlhREVBZEZGZmRDOTc1ZjhGOTM0OWEiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzUzNzU3MTQ3MjUsIm5hbWUiOiJsYWJkYW8ifQ.Dsld2J1AxYPYwMs_kiXCDjDgd6vxhc-4Zk2SbFOYSMk"
+const STREAM_CODE="f5369f20-5b48-490c-a3f0-abca6d6d3eee"
 
 const styles = {
   titleContainer: {
