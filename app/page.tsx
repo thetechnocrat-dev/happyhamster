@@ -131,33 +131,31 @@ export default function App() {
       </div>
       <div style={styles.container}>
         <div style={styles.descriptionContainer}>
-        <h2 style={styles.subTitle}>Our Vision</h2>
-        <p style={styles.description}>
-          Happy Hamster envisions a world where every pet hamster contributes to public healthcare. Through understanding and harnessing their unique health attributes, we aim to revolutionize both pet care and biomedical research.
-        </p>
+          <h2 style={styles.subTitle}>Our Vision</h2>
+          <p style={styles.description}>
+            Happy Hamster envisions a world where every pet hamster plays a role in advancing biomedicine. Through a Data DAO, we aim to reward all participants and create an ecosystem that benefits both animals and humans.
+          </p>
 
           <h2 style={styles.subTitle}>Why It Matters</h2>
           <ul style={styles.bulletPoints}>
-            <li>There are over 1 million pet hamsters just in the U.S.</li>
-            <li>Hamsters have an immune system more similar to humans than mice do.</li>
-            <li>Each year, 120 million rodents are sacrificed for research in the U.S.</li>
+            <li><b>Over 1 Million Pets</b>: There are over 1 million pet hamsters just in the U.S., representing a large population that could contribute to valuable research. <a href="https://www.marketwatch.com/story/forget-dogs-and-cats-hamsters-are-quickly-becoming-the-it-pet-11642599895" style={styles.link} target="_blank" rel="noopener noreferrer">[Source]</a></li>
+            <li><b>Human-Like Immunity</b>: Hamsters have an immune system more similar to humans than mice do, making them excellent models for studying a variety of diseases. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6781508" style={styles.link} target="_blank" rel="noopener noreferrer">[Source]</a></li>
+            <li><b>Ethical Considerations</b>: Each year, 120 million rodents are sacrificed for research in the U.S. By using pet hamsters that are already in homes, we can reduce this number and promote more ethical and cost effective research methods. <a href="https://bmcbiol.biomedcentral.com/articles/10.1186/s12915-021-01184-0" style={styles.link} target="_blank" rel="noopener noreferrer">[Source]</a></li>
           </ul>
-
-          <h2 style={styles.subTitle}>The Big Question</h2>
-          <p style={styles.description}>
-            Could a better understanding of our hamster pets' health help reduce the need for rodent lab animals?
-          </p>
 
           <h2 style={styles.subTitle}>Inspiration</h2>
           <ul style={styles.bulletPoints}>
-            <li>LoyalforDogs raised $27 million to improve dog healthspan.</li>
-            <li>Embark secured $700 million for pet dog DNA testing.</li>
+            <li>Loyal: Raised $27 million to improve the healthspan of dogs.</li>
+            <li>Embark: Secured $75 million for pet dog DNA testing.</li>
           </ul>
         </div>
 
-        <h2 style={styles.subTitle}>Tech Ideas</h2>
+        <h2 style={styles.subTitle}>Tech</h2>
         <p style={styles.description}>
-          LivePeer for vets to monitor hamster health, especially important for pet clinical trials.
+          LivePeer: Enables pet owners and veterinarians to monitor hamster activity, a feature especially important for pet clinical trials.
+        </p>
+        <p style={styles.description}>
+          IPFS and OpenCV: Utilized for reproducible research results in machine learning models.
         </p>
 
         <div style={styles.playerContainer}>
@@ -172,6 +170,9 @@ export default function App() {
         </div>
 
         <br/>
+        <p style={styles.description}>
+          Take a screenshot of the livestream above and upload it below to see the hamster detection model in action.
+        </p>
         <UploadImageComponent />
         <p style={styles.description}>
         </p>
@@ -240,6 +241,10 @@ const styles = {
     display: 'block',
     margin: '1rem 0',
     padding: '0.5rem',
+  },
+  link: {
+    color: '#007bff',  // Or any other color
+    textDecoration: 'none'
   },
   button: {
     padding: '0.5rem',
