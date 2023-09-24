@@ -4,12 +4,15 @@ import React, { useState } from 'react';
 import { Player, studioProvider, createReactClient } from '@livepeer/react';
 import { LivepeerConfig } from '@livepeer/react';
 import { QueryClient } from '@tanstack/react-query';
+import { Web3Storage } from 'web3.storage';
 import axios from 'axios';
 import './globals.css'
 
 const UploadImageComponent: React.FC = () => {
   const [fileData, setFileData] = useState<File | null>(null);
   const [returnedImage, setReturnedImage] = useState<string | null>(null);
+  const [cid, setCid] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
 
   const loadImageBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -20,7 +23,24 @@ const UploadImageComponent: React.FC = () => {
     });
   };
 
+  const handleIPFSLoad = async () => {
+    if (!returnedImage) return;
+
+    const client = new Web3Storage({ token: process.env.STORAGE_ACCOUNT || '' });  // replace with your API token
+
+  // Convert Data URL to Blob
+  const fetchRes = await fetch(returnedImage);
+  const blob = await fetchRes.blob();
+  
+  // Convert Blob to File
+  const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+  
+  const cid = await client.put([file]);
+    setCid(cid);
+  };
+
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -32,7 +52,7 @@ const UploadImageComponent: React.FC = () => {
         method: "POST",
         url: "https://detect.roboflow.com/toy-hamster/1",
         params: {
-          api_key: "FUTpJGYv1o8VDN2dR9op",
+          api_key: process.env.ROBOFLOW_API_KEY || "",
           format: "image"
         },
         data: image,
@@ -46,19 +66,25 @@ const UploadImageComponent: React.FC = () => {
         const blob = new Blob([arrayBufferView], { type: 'image/jpeg' });
         const objectURL = window.URL.createObjectURL(blob);
         setReturnedImage(objectURL);
+        setIsLoading(false);
       })
       .catch(function(error) {
         console.error('Error in API request:', error);
+        setIsLoading(false);
       });
     } catch (error) {
       console.error('Error loading image:', error);
+      setIsLoading(false);
     }
   };
 
   return (
     <div style={styles.playerContainer}>
       <input style={styles.input} type="file" onChange={handleFileChange} />
-      { returnedImage && <img src={returnedImage} alt="Returned Image" style={styles.image} /> }
+      { isLoading ? <div>Processing...</div> : null} {/* Loading message */}
+      { returnedImage && <img src={returnedImage} alt="Returned Image" style={styles.responsiveImage} /> }
+      { returnedImage && <button onClick={handleIPFSLoad} style={styles.button}>Load to IPFS</button> }
+      { cid && <p>CID: {cid}</p> }
     </div>
   );
 };
@@ -126,9 +152,8 @@ export default function App() {
         <br/>
         <UploadImageComponent />
         <p style={styles.description}>
-          LilyPad for reproducible and verifiable data science
         </p>
-        <p>Too implement</p>
+        <div style={{ height: '100px' }}></div> {/* This empty div serves as extra space */}
       </div>
     </div>
   );
@@ -160,6 +185,7 @@ const styles = {
   },
   playerContainer: {
     width: '80%',
+    maxWidth: '700px',
     backgroundColor: '#ffffff', // White background for the player
     borderRadius: '1rem',
     padding: '1rem',
@@ -188,5 +214,18 @@ const styles = {
     display: 'block',
     margin: '1rem 0',
     padding: '0.5rem',
+  },
+  button: {
+    padding: '0.5rem',
+    margin: '1rem 0',
+    cursor: 'pointer',
+    borderRadius: '0.5rem',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+  },
+  responsiveImage: {
+    maxWidth: '100%', // Ensures the image is fully visible in container
+    height: 'auto' // Maintains aspect ratio
   }
 };
