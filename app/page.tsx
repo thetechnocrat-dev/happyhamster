@@ -13,6 +13,8 @@ const UploadImageComponent: React.FC = () => {
   const [returnedImage, setReturnedImage] = useState<string | null>(null);
   const [cid, setCid] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error message state
+
 
   const loadImageBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -28,23 +30,34 @@ const UploadImageComponent: React.FC = () => {
 
     const client = new Web3Storage({ token: process.env.STORAGE_ACCOUNT || '' });  // replace with your API token
 
-  // Convert Data URL to Blob
-  const fetchRes = await fetch(returnedImage);
-  const blob = await fetchRes.blob();
+    // Convert Data URL to Blob
+    const fetchRes = await fetch(returnedImage);
+    const blob = await fetchRes.blob();
   
-  // Convert Blob to File
-  const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-  
-  const cid = await client.put([file]);
+    // Convert Blob to File
+    const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+ 
+    const cid = await client.put([file]);
     setCid(cid);
   };
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
-    const file = event.target.files?.[0];
-    if (!file) return;
+    setErrorMessage(null);
 
-    setFileData(file);
+    const file = event.target.files?.[0];
+    if (!file) {
+      setErrorMessage("No file selected.");
+      setIsLoading(false);
+      return;
+    }
+
+    // Check for file type
+    if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+      setErrorMessage("Invalid file type. Only JPEG and PNG are allowed.");
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const image = await loadImageBase64(file);
@@ -69,11 +82,20 @@ const UploadImageComponent: React.FC = () => {
         setIsLoading(false);
       })
       .catch(function(error) {
+        setErrorMessage(`Error: ${error.message}`);
         console.error('Error in API request:', error);
+        setErrorMessage(`Error: ${error.message}`);
         setIsLoading(false);
       });
     } catch (error) {
       console.error('Error loading image:', error);
+      if (error instanceof Error) {
+        console.error('Error loading image:', error);
+        setErrorMessage(`Error: ${error.message}`);
+      } else {
+        console.error('Error loading image:', error);
+        setErrorMessage(`Error: Unknown error occurred`);
+      }
       setIsLoading(false);
     }
   };
