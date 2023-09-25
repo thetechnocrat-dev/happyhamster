@@ -63,7 +63,7 @@ const UploadImageComponent: React.FC = () => {
       const image = await loadImageBase64(file);
       axios({
         method: "POST",
-        url: "https://detect.roboflow.com/toy-hamster/1",
+        url: "https://detect.roboflow.com/toy-hamster/2",
         params: {
           api_key: ROBO_ACCOUNT,
           format: "image"
@@ -151,6 +151,14 @@ export default function App() {
         </div>
 
         <h2 style={styles.subTitle}>Tech</h2>
+        <br/>
+
+        <p>
+          EthGlobal NY 2023 Stream ended, but you can watch a demo on <a href="https://ethglobal.com/showcase/happy-hamster-e57za" style={styles.link} target="_blank" rel="noopener noreferrer">Happy Hamster Eth Global Showcase</a>
+        </p>
+
+        <br/>
+
         <p style={styles.description}>
           LivePeer: Enables pet owners and veterinarians to monitor hamster activity, a feature especially important for pet clinical trials.
         </p>
